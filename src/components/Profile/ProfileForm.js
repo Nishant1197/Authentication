@@ -11,30 +11,34 @@ const ProfileForm = () => {
 const {token}=useContext(AuthContext)
 const submitHandler=(event)=>{
 event.preventDefault();
-const enteredNewPassword=newPasswordInputRef.current.value;
-fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${WEB_API_KEY}`,{
-  method:'POST',
-  body:JSON.stringify({
-  password:enteredNewPassword,
-  idToken:token,
-  returnSecureToken:false
-}),
-headers:{
-  'Content-Type':'application/json'
-}
-})
-.then((res=>{
-history.replace('/')
-}))
-.catch((error)=>{
-console.log(error);
-})
+const enteredNewPassword=document.getElementById("new-password").value;
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+  "password": enteredNewPassword,
+  "idToken": token,
+  "returnSecureToken": "false"
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${WEB_API_KEY}`, requestOptions)
+  .then(response => response.text())
+  .then(result => history.push('/')
+  
+  )
+  .catch(error => console.log('error', error));
 }
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
       <div className={classes.control}>
-        <label htmlFor='new-password' ref={newPasswordInputRef}>New Password</label>
+        <label htmlFor='new-password'  >New Password</label>
         <input type='password' id='new-password' />
       </div>
       <div className={classes.action}>

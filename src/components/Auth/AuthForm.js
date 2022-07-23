@@ -64,16 +64,7 @@ else{
 }
 
 
-// console.log("fnnfn");
-//   const data=await response.json()
-// return data
-// }
-// catch(err)
-// {
-// console.log(err);
-// }
-// }
-//   }
+
 
   return (
     <section className={classes.auth}>
